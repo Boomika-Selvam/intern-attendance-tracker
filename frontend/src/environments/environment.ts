@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5000/api',
-  assetBaseUrl: 'http://localhost:5000'
+  apiUrl: 'https://intern-attendance-tracker-omxv.vercel.app/api',
+  assetBaseUrl: 'https://intern-attendance-tracker-omxv.vercel.app'
 };
