@@ -1,0 +1,21 @@
+<main class="page scan-page">
+  <section class="surface">
+    <h1>Scan Attendance QR</h1>
+    <p class="muted">Use the existing QR code at the office entry point to open attendance.</p>
+
+    <div class="scanner-frame">
+      <zxing-scanner
+        [enable]="scannerEnabled"
+        (permissionResponse)="onPermissionResponse($event)"
+        (scanSuccess)="onScanSuccess($event)">
+      </zxing-scanner>
+    </div>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" routerLink="/attendance">
+        <mat-icon>login</mat-icon>
+        Continue
+      </button>
+    </div>
+  </section>
+</main>

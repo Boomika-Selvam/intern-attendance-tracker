@@ -1,0 +1,125 @@
+/* admin-dashboard.component.css ─ Apple Dark Theme */
+
+h1 {
+  margin: 0 0 6px;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  background: linear-gradient(90deg, #f5f5f7 30%, rgba(10, 132, 255, 0.85) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Sub-heading under the h1 */
+.page-sub {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0 0 24px;
+}
+
+/* ── Filter grid ── */
+.filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  gap: 14px;
+  align-items: center;
+}
+
+/* Checkbox row sits full width */
+.filters mat-checkbox {
+  grid-column: 1 / -1;
+}
+
+/* ── Tab group ── */
+mat-tab-group {
+  margin-top: 24px;
+  animation: fadeSlideUp 380ms cubic-bezier(0, 0, 0.2, 1) both;
+  animation-delay: 80ms;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Table wrapper ── */
+.table-wrap {
+  margin-top: 0;
+  padding: 0;
+  border-radius: 0 0 22px 22px !important;
+  overflow-x: auto;
+  /* Kill the extra surface card look – tabs already provide the glass surface */
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+table {
+  width: 100%;
+  min-width: 700px;
+}
+
+/* Active indicator badge */
+.badge-active {
+  display: inline-block;
+  background: rgba(48, 209, 88, 0.15);
+  color: #30d158;
+  border: 1px solid rgba(48, 209, 88, 0.30);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 10px;
+  letter-spacing: 0.2px;
+}
+
+.badge-inactive {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 10px;
+}
+
+/* Notification type pill */
+.badge-notif {
+  display: inline-block;
+  background: rgba(10, 132, 255, 0.12);
+  color: #5ac8ff;
+  border: 1px solid rgba(10, 132, 255, 0.22);
+  border-radius: 20px;
+  font-size: 12px;
+  padding: 2px 10px;
+}
+
+/* ── Export / action buttons cluster ── */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  grid-column: 1 / -1;
+  margin-top: 6px;
+}
+
+/* ── Empty state ── */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-tertiary);
+  font-size: 14px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 720px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+  .filters mat-checkbox {
+    grid-column: auto;
+  }
+}

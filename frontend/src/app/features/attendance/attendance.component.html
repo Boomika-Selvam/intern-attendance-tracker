@@ -1,0 +1,39 @@
+<main class="page attendance-page">
+  <section class="surface" *ngIf="!loading; else loadingState">
+    <div class="profile" *ngIf="intern">
+      <img [src]="photoUrl" [alt]="intern.name">
+      <div>
+        <h1>{{ intern.name }}</h1>
+        <p class="muted">{{ intern.internId }}</p>
+      </div>
+    </div>
+
+    <div class="status">
+      <span class="label">Status</span>
+      <strong *ngIf="!todayRecord">Ready to login</strong>
+      <strong *ngIf="todayRecord?.isLoggedIn">Logged in</strong>
+      <strong *ngIf="completedToday">Completed for today</strong>
+    </div>
+
+    <div class="times" *ngIf="todayRecord">
+      <p><span>Login</span>{{ todayRecord.loginTime | date:'short' }}</p>
+      <p><span>Logout</span>{{ todayRecord.logoutTime ? (todayRecord.logoutTime | date:'short') : '-' }}</p>
+      <p><span>Total Hours</span>{{ todayRecord.totalWorkingHours || 0 }}</p>
+    </div>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" (click)="login()" [disabled]="!canLogin || actionLoading">
+        <mat-icon>login</mat-icon>
+        Login
+      </button>
+      <button mat-raised-button color="accent" (click)="logout()" [disabled]="!canLogout || actionLoading">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
+    </div>
+  </section>
+
+  <ng-template #loadingState>
+    <section class="surface loading"><mat-spinner diameter="42"></mat-spinner></section>
+  </ng-template>
+</main>

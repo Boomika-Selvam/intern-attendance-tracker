@@ -1,0 +1,37 @@
+<main class="page register-page">
+  <section class="surface">
+    <h1>Register Intern</h1>
+    <p class="muted">Enter your name and upload a profile photo. Your Intern ID is generated automatically.</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" autocomplete="name">
+        <mat-error *ngIf="form.get('name')?.hasError('required')">Name is required</mat-error>
+        <mat-error *ngIf="form.get('name')?.hasError('minlength')">Enter at least 2 characters</mat-error>
+      </mat-form-field>
+
+      <div class="photo-row">
+        <div class="preview" *ngIf="previewUrl; else emptyPreview">
+          <img [src]="previewUrl" alt="Selected profile preview">
+        </div>
+        <ng-template #emptyPreview>
+          <div class="preview empty"><mat-icon>person</mat-icon></div>
+        </ng-template>
+
+        <input #photoInput hidden type="file" accept="image/*" (change)="onPhotoSelected($event)">
+        <button class="upload-button" mat-stroked-button type="button" (click)="photoInput.click()">
+          <mat-icon>photo_camera</mat-icon>
+          Choose Photo
+        </button>
+      </div>
+
+      <div class="actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+          <mat-icon>how_to_reg</mat-icon>
+          Register
+        </button>
+      </div>
+    </form>
+  </section>
+</main>

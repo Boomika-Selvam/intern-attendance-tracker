@@ -1,0 +1,116 @@
+/* registration.component.css ─ Apple Dark Theme */
+
+.register-page {
+  max-width: 520px;
+}
+
+h1 {
+  margin: 0 0 4px;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  background: linear-gradient(90deg, #f5f5f7 30%, rgba(10, 132, 255, 0.85) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+form {
+  margin-top: 22px;
+}
+
+/* ── Photo row ── */
+.photo-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+/* Avatar circle */
+.preview {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(10, 132, 255, 0.08);
+  border: 2px solid rgba(10, 132, 255, 0.20);
+  display: grid;
+  place-items: center;
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: avatarIn 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: 80ms;
+}
+
+@keyframes avatarIn {
+  from { opacity: 0; transform: scale(0.80); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.preview:hover {
+  border-color: rgba(10, 132, 255, 0.55);
+  box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.10);
+}
+
+.preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.preview:hover img {
+  transform: scale(1.06);
+}
+
+.preview.empty {
+  background: rgba(255,255,255,0.04);
+  border-color: var(--border-mid);
+}
+
+.preview mat-icon {
+  color: var(--text-tertiary);
+  font-size: 34px !important;
+  width: 34px !important;
+  height: 34px !important;
+}
+
+/* ── Upload button ── */
+.upload-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Animate form field in */
+mat-form-field {
+  animation: fieldIn 340ms cubic-bezier(0, 0, 0.2, 1) both;
+}
+
+@keyframes fieldIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Register button pulse on hover */
+button[mat-raised-button][color="primary"] {
+  position: relative;
+  overflow: hidden;
+}
+
+button[mat-raised-button][color="primary"]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.10) 50%, transparent 100%);
+  transform: translateX(-100%);
+  transition: transform 500ms ease;
+}
+
+button[mat-raised-button][color="primary"]:hover::after {
+  transform: translateX(100%);
+}

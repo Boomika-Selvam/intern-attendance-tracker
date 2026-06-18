@@ -1,0 +1,395 @@
+/* ─── Global Apple-Dark Theme ─────────────────────────────────────────────── */
+/* Import SF Pro / system font stack + Inter as fallback                        */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  /* ── Palette ── */
+  --black:        #000000;
+  --surface-0:    #0a0a0f;          /* page bg */
+  --surface-1:    #111118;          /* card bg */
+  --surface-2:    #18181f;          /* elevated card */
+  --surface-3:    #22222c;          /* input bg */
+
+  --blue-vivid:   #0a84ff;          /* Apple system blue */
+  --blue-dim:     #0666cc;
+  --blue-glow:    rgba(10, 132, 255, 0.20);
+  --blue-border:  rgba(10, 132, 255, 0.35);
+
+  --glass-bg:     rgba(18, 18, 28, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur:   blur(20px) saturate(1.6);
+
+  --text-primary:   #f5f5f7;
+  --text-secondary: rgba(245, 245, 247, 0.55);
+  --text-tertiary:  rgba(245, 245, 247, 0.30);
+
+  --border-dim:   rgba(255, 255, 255, 0.06);
+  --border-mid:   rgba(255, 255, 255, 0.10);
+  --border-strong:rgba(255, 255, 255, 0.16);
+
+  --accent-gradient: linear-gradient(135deg, #0a84ff 0%, #3a5bef 100%);
+  --surface-gradient: linear-gradient(160deg, #0d0d18 0%, #090912 100%);
+
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --radius-xl:  22px;
+
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out:    cubic-bezier(0, 0, 0.2, 1);
+  --t-fast:  160ms;
+  --t-mid:   280ms;
+  --t-slow:  420ms;
+
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+}
+
+/* ── Base reset / page ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--surface-gradient);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* Subtle animated radial glow behind content */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(10, 132, 255, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 80%, rgba(58, 91, 239, 0.05) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Page layout ── */
+.page {
+  position: relative;
+  z-index: 1;
+  padding: 28px 24px 60px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ── Glass surface card ── */
+.surface {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: 28px 28px 24px;
+  margin-bottom: 20px;
+  /* Subtle top highlight – the "Apple glass" edge */
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.09),
+    0 4px 32px rgba(0,0,0,0.45);
+  animation: surfaceFadeIn var(--t-slow) var(--ease-out) both;
+}
+
+@keyframes surfaceFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Typography ── */
+h1, h2, h3 {
+  margin: 0 0 8px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+h1 { font-size: 26px; }
+h2 { font-size: 20px; }
+
+.muted { color: var(--text-secondary); font-size: 14px; margin: 0; }
+
+/* ── Buttons ── */
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  align-items: center;
+}
+
+/* Angular Material 11 button overrides */
+.mat-raised-button.mat-primary,
+button[mat-raised-button][color="primary"] {
+  background: var(--accent-gradient) !important;
+  color: #fff !important;
+  border-radius: var(--radius-md) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.1px !important;
+  padding: 0 20px !important;
+  height: 40px !important;
+  box-shadow: 0 2px 16px rgba(10, 132, 255, 0.30) !important;
+  transition: transform var(--t-fast) var(--ease-spring),
+              box-shadow var(--t-fast) var(--ease-smooth) !important;
+}
+
+.mat-raised-button.mat-primary:hover,
+button[mat-raised-button][color="primary"]:hover {
+  transform: scale(1.03) !important;
+  box-shadow: 0 4px 24px rgba(10, 132, 255, 0.45) !important;
+}
+
+.mat-raised-button.mat-primary:active,
+button[mat-raised-button][color="primary"]:active {
+  transform: scale(0.97) !important;
+}
+
+.mat-raised-button.mat-accent,
+button[mat-raised-button][color="accent"] {
+  background: linear-gradient(135deg, #30d158 0%, #25a244 100%) !important;
+  color: #fff !important;
+  border-radius: var(--radius-md) !important;
+  height: 40px !important;
+  padding: 0 20px !important;
+  font-weight: 500 !important;
+  box-shadow: 0 2px 16px rgba(48, 209, 88, 0.25) !important;
+  transition: transform var(--t-fast) var(--ease-spring),
+              box-shadow var(--t-fast) var(--ease-smooth) !important;
+}
+
+.mat-raised-button.mat-accent:hover,
+button[mat-raised-button][color="accent"]:hover {
+  transform: scale(1.03) !important;
+  box-shadow: 0 4px 24px rgba(48, 209, 88, 0.40) !important;
+}
+
+.mat-raised-button.mat-accent:active,
+button[mat-raised-button][color="accent"]:active {
+  transform: scale(0.97) !important;
+}
+
+.mat-stroked-button,
+button[mat-stroked-button] {
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px solid var(--border-mid) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--radius-md) !important;
+  height: 40px !important;
+  padding: 0 18px !important;
+  font-weight: 400 !important;
+  backdrop-filter: blur(6px) !important;
+  transition: background var(--t-fast) var(--ease-smooth),
+              border-color var(--t-fast) var(--ease-smooth),
+              transform var(--t-fast) var(--ease-spring) !important;
+}
+
+.mat-stroked-button:hover,
+button[mat-stroked-button]:hover {
+  background: rgba(255,255,255,0.09) !important;
+  border-color: var(--border-strong) !important;
+  transform: scale(1.02) !important;
+}
+
+.mat-stroked-button:active,
+button[mat-stroked-button]:active {
+  transform: scale(0.97) !important;
+}
+/* Disabled state */
+button[disabled] {
+  opacity: 0.35 !important;
+  pointer-events: none !important;
+}
+
+/* ── Mat Icons ── */
+.mat-icon {
+  font-size: 18px !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin-right: 6px !important;
+  vertical-align: -4px !important;
+}
+
+/* ── Form fields ── */
+/* ── Form fields ── */
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-flex {
+  background: rgba(255,255,255,0.04) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: var(--border-mid) !important;
+}
+
+.mat-form-field-appearance-outline:hover .mat-form-field-outline {
+  color: var(--border-strong) !important;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: var(--blue-vivid) !important;
+}
+
+.mat-input-element {
+  color: var(--text-primary) !important;
+  caret-color: var(--blue-vivid) !important;
+}
+
+.mat-form-field-label {
+  color: var(--text-secondary) !important;
+}
+
+.mat-form-field.mat-focused .mat-form-field-label {
+  color: var(--blue-vivid) !important;
+}
+
+.mat-form-field.mat-form-field-invalid .mat-form-field-label {
+  color: #ff453a !important;
+}
+
+.mat-error {
+  color: #ff453a !important;
+}
+/* ── Checkbox ── */
+/* ── Checkbox ── */
+.mat-checkbox-frame {
+  border-color: var(--border-strong) !important;
+  border-radius: 5px !important;
+  background: var(--surface-3) !important;
+  transition: all var(--t-fast) var(--ease-smooth) !important;
+}
+
+.mat-checkbox-background {
+  border-radius: 5px !important;
+}
+
+.mat-checkbox-checked .mat-checkbox-background,
+.mat-checkbox-indeterminate .mat-checkbox-background {
+  background-color: var(--blue-vivid) !important;
+  box-shadow: 0 0 0 4px var(--blue-glow) !important;
+}
+
+.mat-checkbox-label {
+  color: var(--text-primary) !important;
+  font-size: 14px !important;
+}
+
+/* ── Snackbar ── */
+.mat-snack-bar-container {
+  background: var(--surface-2) !important;
+  border: 1px solid var(--border-mid) !important;
+  border-radius: var(--radius-md) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
+}
+
+/* ── Spinner ── */
+/* ── Spinner ── */
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: var(--blue-vivid) !important;
+}
+/* ── Tabs ── */
+/* ── Tabs ── */
+.mat-tab-group {
+  margin-top: 24px;
+  animation: surfaceFadeIn var(--t-slow) var(--ease-out) both;
+  animation-delay: 100ms;
+}
+
+.mat-tab-header {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0 !important;
+  padding: 0 20px !important;
+}
+
+.mat-tab-label {
+  color: var(--text-secondary) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  transition: color var(--t-fast) var(--ease-smooth) !important;
+}
+
+.mat-tab-label-active {
+  color: var(--text-primary) !important;
+}
+
+.mat-ink-bar {
+  background-color: var(--blue-vivid) !important;
+  height: 2px !important;
+  border-radius: 2px !important;
+}
+
+.mat-tab-body-wrapper {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-top: none !important;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl) !important;
+  overflow: hidden !important;
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,0.06), 0 4px 32px rgba(0,0,0,0.35) !important;
+}
+/* ── Tables ── */
+/* ── Tables ── */
+.mat-table {
+  background: transparent !important;
+  width: 100%;
+}
+
+.mat-header-row {
+  background: rgba(255,255,255,0.03) !important;
+  border-bottom: 1px solid var(--border-dim) !important;
+}
+
+.mat-header-cell {
+  color: var(--text-secondary) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  padding: 0 16px !important;
+  border-bottom: none !important;
+}
+
+.mat-row {
+  border-bottom: 1px solid var(--border-dim) !important;
+  transition: background var(--t-fast) var(--ease-smooth) !important;
+}
+
+.mat-row:last-child {
+  border-bottom: none !important;
+}
+
+.mat-row:hover {
+  background: rgba(10, 132, 255, 0.05) !important;
+}
+
+.mat-cell {
+  color: var(--text-primary) !important;
+  font-size: 14px !important;
+  padding: 14px 16px !important;
+  border-bottom: none !important;
+}
+/* ── full-width util ── */
+.full-width { width: 100%; }
+
+/* ── Scroll bar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.22); }
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}
