@@ -6,12 +6,11 @@
     <a mat-button routerLink="/scan" routerLinkActive="active">Scan</a>
     <a mat-button routerLink="/attendance" routerLinkActive="active">Attendance</a>
     <a mat-button routerLink="/admin" routerLinkActive="active">Admin</a>
-
-    <button mat-stroked-button type="button" class="theme-toggle" (click)="toggleTheme()">
-      <mat-icon>{{ isLightTheme ? 'dark_mode' : 'light_mode' }}</mat-icon>
-      {{ isLightTheme ? 'Dark' : 'Light' }}
-    </button>
   </nav>
+
+  <button mat-icon-button type="button" class="theme-toggle" (click)="toggleTheme()">
+    <mat-icon>{{ isLightTheme ? 'dark_mode' : 'light_mode' }}</mat-icon>
+  </button>
 </mat-toolbar>
 
 <router-outlet></router-outlet>

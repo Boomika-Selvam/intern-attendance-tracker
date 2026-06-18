@@ -93,16 +93,25 @@ nav a.router-link-active {
   }
 }
 .theme-toggle {
-  margin-left: 8px;
-  min-width: 92px;
+  margin-left: 10px;
+  color: var(--text-primary) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid var(--border-mid) !important;
+  border-radius: 12px !important;
+  width: 44px !important;
+  height: 44px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
 }
 
 .theme-toggle mat-icon {
-  margin-right: 6px;
+  margin: 0 !important;
+  font-size: 22px !important;
+  width: 22px !important;
+  height: 22px !important;
 }
 
-body.light-theme mat-toolbar {
-  background: rgba(255, 255, 255, 0.82) !important;
-  color: var(--text-primary) !important;
-  border-bottom-color: var(--border-mid);
+body.light-theme .theme-toggle {
+  background: rgba(15, 23, 42, 0.06) !important;
 }
