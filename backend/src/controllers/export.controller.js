@@ -14,9 +14,31 @@ const formatDateTime = (value) => {
     timeZone: 'Asia/Kolkata'
   });
 };
+const startOfDay = (date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
+const endOfDay = (date) => new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
 
+const buildDateFilter = (dateValue) => {
+  if (!dateValue) {
+    return {};
+  }
+
+  const key = String(dateValue).slice(0, 10);
+  const date = new Date(key);
+
+  return {
+    $or: [
+      { attendanceDate: key },
+      {
+        attendanceDate: { $exists: false },
+        createdAt: { $gte: startOfDay(date), $lt: endOfDay(date) }
+      }
+    ]
+  };
+};
 const getRows = async (req) => {
-  const query = {};
+  const query = {
+    ...buildDateFilter(req.query.date)
+  };
 
   if (req.query.internId) {
     const search = String(req.query.internId).trim();
@@ -29,6 +51,10 @@ const getRows = async (req) => {
     }).select('internId name');
 
     query.internId = { $in: matchingInterns.map((intern) => intern.internId) };
+  }
+
+  if (req.query.currentlyLoggedIn === 'true') {
+    query.isLoggedIn = true;
   }
 
   const records = await Attendance.find(query).sort({ createdAt: -1 });

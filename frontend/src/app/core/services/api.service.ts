@@ -44,10 +44,24 @@ export class ApiService {
     return this.http.get<Attendance[]>(`${environment.apiUrl}/attendance`, { params });
   }
 
-  exportUrl(type: 'excel' | 'pdf', internId = ''): string {
-    const suffix = internId ? `?internId=${encodeURIComponent(internId)}` : '';
-    return `${environment.apiUrl}/export/${type}${suffix}`;
+  exportUrl(type: 'excel' | 'pdf', internId = '', date = '', currentlyLoggedIn = false): string {
+  const params = new URLSearchParams();
+
+  if (internId) {
+    params.set('internId', internId);
   }
+
+  if (date) {
+    params.set('date', date);
+  }
+
+  if (currentlyLoggedIn) {
+    params.set('currentlyLoggedIn', 'true');
+  }
+
+  const query = params.toString();
+  return `${environment.apiUrl}/export/${type}${query ? `?${query}` : ''}`;
+}
 
   imageUrl(photoUrl: string): string {
   if (!photoUrl) {

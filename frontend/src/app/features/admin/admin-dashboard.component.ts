@@ -64,6 +64,16 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   export(type: 'excel' | 'pdf'): void {
-    window.open(this.api.exportUrl(type, this.filters.value.internId || ''), '_blank');
-  }
+  const value = this.filters.value;
+
+  window.open(
+    this.api.exportUrl(
+      type,
+      value.internId || '',
+      value.date || '',
+      !!value.currentlyLoggedIn
+    ),
+    '_blank'
+  );
+}
 }
