@@ -4,8 +4,8 @@
 
     <form class="filters" [formGroup]="filters" (ngSubmit)="applyFilters()">
       <mat-form-field appearance="outline">
-        <mat-label>Intern ID</mat-label>
-        <input matInput formControlName="internId" placeholder="INT001">
+        <mat-label>Intern ID or Name</mat-label>
+<input matInput formControlName="internId" placeholder="INT001 or Daisy">
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -53,6 +53,10 @@
             <th mat-header-cell *matHeaderCellDef>Intern ID</th>
             <td mat-cell *matCellDef="let row">{{ row.internId }}</td>
           </ng-container>
+          <ng-container matColumnDef="name">
+  <th mat-header-cell *matHeaderCellDef>Name</th>
+  <td mat-cell *matCellDef="let row">{{ row.name || '-' }}</td>
+</ng-container>
           <ng-container matColumnDef="loginTime">
             <th mat-header-cell *matHeaderCellDef>Login</th>
             <td mat-cell *matCellDef="let row">{{ row.loginTime | date:'short' }}</td>

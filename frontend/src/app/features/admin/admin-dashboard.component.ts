@@ -18,7 +18,7 @@ export class AdminDashboardComponent implements OnInit {
   interns: Intern[] = [];
   attendance: Attendance[] = [];
   internColumns = ['internId', 'name', 'createdAt'];
-  attendanceColumns = ['internId', 'loginTime', 'logoutTime', 'totalWorkingHours', 'isLoggedIn', 'notificationType'];
+  attendanceColumns = ['internId', 'name', 'loginTime', 'logoutTime', 'totalWorkingHours', 'isLoggedIn', 'notificationType'];
 
   constructor(private fb: FormBuilder, public api: ApiService) {}
 

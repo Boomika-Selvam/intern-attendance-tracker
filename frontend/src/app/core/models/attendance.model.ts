@@ -2,6 +2,7 @@ export interface Attendance {
   _id?: string;
   attendanceId: string;
   internId: string;
+  name?: string;
   attendanceDate?: string;
   loginTime: string;
   logoutTime?: string;
