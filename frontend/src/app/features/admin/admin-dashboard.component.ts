@@ -28,8 +28,23 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   loadInterns(): void {
-    this.api.getInterns(this.filters.value.internId || '').subscribe((interns) => (this.interns = interns));
+  const value = this.filters.value;
+  const internSearch = value.internId || '';
+
+  if (value.currentlyLoggedIn) {
+    this.api.getAttendance(internSearch, value.date || '', true).subscribe((records) => {
+      const activeInternIds = records.map((record) => record.internId);
+
+      this.api.getInterns(internSearch).subscribe((interns) => {
+        this.interns = interns.filter((intern) => activeInternIds.includes(intern.internId));
+      });
+    });
+
+    return;
   }
+
+  this.api.getInterns(internSearch).subscribe((interns) => (this.interns = interns));
+}
 
   loadAttendance(): void {
     const value = this.filters.value;

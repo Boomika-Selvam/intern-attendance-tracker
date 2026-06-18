@@ -43,10 +43,17 @@ export class RegistrationComponent {
   }
 
   submit(): void {
-    if (this.form.invalid || !this.photoFile) {
-      this.form.markAllAsTouched();
-      return;
-    }
+  if (!this.photoFile) {
+    this.form.markAllAsTouched();
+    this.snackBar.open('Please upload a profile photo', 'Close', { duration: 4000 });
+    return;
+  }
+
+  if (this.form.invalid) {
+    this.form.markAllAsTouched();
+    this.snackBar.open('Please fill all required fields correctly', 'Close', { duration: 4000 });
+    return;
+  }
 
     const formData = new FormData();
     formData.append('name', this.form.value.name);
