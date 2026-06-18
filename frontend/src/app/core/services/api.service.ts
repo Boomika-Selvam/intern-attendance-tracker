@@ -50,6 +50,14 @@ export class ApiService {
   }
 
   imageUrl(photoUrl: string): string {
-    return `${environment.assetBaseUrl}${photoUrl}`;
+  if (!photoUrl) {
+    return '';
   }
+
+  if (photoUrl.startsWith('data:') || photoUrl.startsWith('http')) {
+    return photoUrl;
+  }
+
+  return `${environment.assetBaseUrl}${photoUrl}`;
+}
 }

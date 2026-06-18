@@ -13,7 +13,7 @@ const registerIntern = async (req, res, next) => {
     }
 
     const internId = await generateInternId();
-    const photoUrl = `/uploads/${req.file.filename}`;
+    const photoUrl = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
     const intern = await Intern.create({ internId, name, photoUrl, isRegistered: true });
 
     return res.status(201).json({ message: 'Intern registered', intern });
