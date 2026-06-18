@@ -421,6 +421,86 @@ body.light-theme .status {
 body.light-theme .mat-header-row {
   background: rgba(15, 23, 42, 0.04) !important;
 }
+/* ── Light theme navbar fixes ── */
+body.light-theme mat-toolbar {
+  background: rgba(255, 255, 255, 0.86) !important;
+  color: #111827 !important;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.12) !important;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.10) !important;
+}
+
+body.light-theme mat-toolbar .brand {
+  background: linear-gradient(90deg, #111827 20%, #0a84ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.light-theme mat-toolbar nav a {
+  color: rgba(17, 24, 39, 0.62) !important;
+}
+
+body.light-theme mat-toolbar nav a:hover {
+  color: #111827 !important;
+  background: rgba(10, 132, 255, 0.08) !important;
+}
+
+body.light-theme mat-toolbar nav a.active,
+body.light-theme mat-toolbar nav a.router-link-active {
+  color: #0a3d7a !important;
+  background: rgba(10, 132, 255, 0.12) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(10, 132, 255, 0.35),
+    0 8px 20px rgba(10, 132, 255, 0.12) !important;
+}
+
+/* ── Light theme toggle button fixes ── */
+body.light-theme .theme-toggle {
+  background: #111827 !important;
+  color: #ffffff !important;
+  border-color: #111827 !important;
+}
+
+body.light-theme .theme-toggle mat-icon {
+  color: #ffffff !important;
+}
+
+/* ── Light theme admin/dashboard fixes ── */
+body.light-theme .admin-page h1,
+body.light-theme .register-page h1,
+body.light-theme .scan-page h1,
+body.light-theme .attendance-page h1 {
+  background: linear-gradient(90deg, #111827 20%, #0a84ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: #111827 !important;
+}
+
+body.light-theme .surface {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border: 1px solid rgba(15, 23, 42, 0.10) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 12px 34px rgba(15, 23, 42, 0.10) !important;
+}
+
+body.light-theme .mat-tab-body-wrapper,
+body.light-theme .mat-tab-header {
+  background: rgba(255, 255, 255, 0.84) !important;
+}
+
+body.light-theme .mat-header-row {
+  background: rgba(15, 23, 42, 0.045) !important;
+}
+
+body.light-theme .mat-cell {
+  color: #111827 !important;
+}
+
+body.light-theme .mat-header-cell {
+  color: rgba(17, 24, 39, 0.62) !important;
+}
 /* ── full-width util ── */
 .full-width { width: 100%; }
 
