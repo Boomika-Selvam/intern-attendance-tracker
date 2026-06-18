@@ -92,3 +92,17 @@ nav a.router-link-active {
     padding: 8px 12px;
   }
 }
+.theme-toggle {
+  margin-left: 8px;
+  min-width: 92px;
+}
+
+.theme-toggle mat-icon {
+  margin-right: 6px;
+}
+
+body.light-theme mat-toolbar {
+  background: rgba(255, 255, 255, 0.82) !important;
+  color: var(--text-primary) !important;
+  border-bottom-color: var(--border-mid);
+}
