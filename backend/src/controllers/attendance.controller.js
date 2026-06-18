@@ -105,14 +105,38 @@ const getAttendance = async (req, res, next) => {
     };
 
     if (req.query.internId) {
-      query.internId = String(req.query.internId).trim().toUpperCase();
+      const search = String(req.query.internId).trim();
+
+      const matchingInterns = await Intern.find({
+        $or: [
+          { internId: new RegExp(search, 'i') },
+          { name: new RegExp(search, 'i') }
+        ]
+      }).select('internId name');
+
+      query.internId = { $in: matchingInterns.map((intern) => intern.internId) };
     }
+
     if (req.query.currentlyLoggedIn === 'true') {
       query.isLoggedIn = true;
     }
 
     const records = await Attendance.find(query).sort({ createdAt: -1 });
-    return res.json(records);
+
+    const internIds = records.map((record) => record.internId);
+    const interns = await Intern.find({ internId: { $in: internIds } }).select('internId name');
+
+    const nameById = interns.reduce((acc, intern) => {
+      acc[intern.internId] = intern.name;
+      return acc;
+    }, {});
+
+    const rows = records.map((record) => ({
+      ...record.toObject(),
+      name: nameById[record.internId] || '-'
+    }));
+
+    return res.json(rows);
   } catch (error) {
     return next(error);
   }
