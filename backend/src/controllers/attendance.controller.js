@@ -18,8 +18,10 @@ const buildDateFilter = (dateValue) => {
   if (!dateValue) {
     return {};
   }
+
   const key = String(dateValue).slice(0, 10);
   const date = new Date(key);
+
   return {
     $or: [
       { attendanceDate: key },
@@ -31,9 +33,42 @@ const buildDateFilter = (dateValue) => {
   };
 };
 
+const closeOldActiveLogins = async (internId = '') => {
+  const today = dateKey();
+
+  const query = {
+    isLoggedIn: true,
+    attendanceDate: { $ne: today }
+  };
+
+  if (internId) {
+    query.internId = internId;
+  }
+
+  const oldRecords = await Attendance.find(query);
+
+  for (const record of oldRecords) {
+    const logoutTime = record.attendanceDate
+      ? new Date(`${record.attendanceDate}T23:59:59.999+05:30`)
+      : new Date(record.loginTime);
+
+    record.logoutTime = logoutTime;
+    record.totalWorkingHours = Number(((logoutTime - record.loginTime) / 36e5).toFixed(2));
+    record.isLoggedIn = false;
+    record.notificationSent = true;
+    record.notificationType = 'logged_out';
+    record.lastNotificationAt = logoutTime;
+
+    await record.save();
+  }
+};
+
 const login = async (req, res, next) => {
   try {
     const internId = String(req.body.internId || '').trim().toUpperCase();
+
+    await closeOldActiveLogins(internId);
+
     const intern = await Intern.findOne({ internId });
     if (!intern) {
       return res.status(404).json({ message: 'Intern does not exist' });
@@ -41,6 +76,7 @@ const login = async (req, res, next) => {
 
     const attendanceDate = dateKey();
     const todayFilter = buildDateFilter(attendanceDate);
+
     const activeRecord = await Attendance.findOne({ internId, isLoggedIn: true, ...todayFilter });
     if (activeRecord) {
       return res.status(409).json({ message: 'You are already logged in. Please logout first.' });
@@ -48,7 +84,9 @@ const login = async (req, res, next) => {
 
     const todaysRecord = await Attendance.findOne({ internId, ...todayFilter });
     if (todaysRecord) {
-      return res.status(409).json({ message: 'Attendance already marked for today. Only one login and one logout are allowed per day.' });
+      return res.status(409).json({
+        message: 'Attendance already marked for today. Only one login and one logout are allowed per day.'
+      });
     }
 
     const attendance = await Attendance.create({
@@ -69,6 +107,9 @@ const login = async (req, res, next) => {
 const logout = async (req, res, next) => {
   try {
     const internId = String(req.body.internId || '').trim().toUpperCase();
+
+    await closeOldActiveLogins(internId);
+
     const activeRecord = await Attendance.findOne({
       internId,
       isLoggedIn: true,
@@ -85,11 +126,13 @@ const logout = async (req, res, next) => {
     activeRecord.logoutTime = logoutTime;
     activeRecord.totalWorkingHours = totalWorkingHours;
     activeRecord.isLoggedIn = false;
+
     if (!activeRecord.notificationSent) {
       activeRecord.notificationSent = true;
       activeRecord.notificationType = 'logged_out';
       activeRecord.lastNotificationAt = logoutTime;
     }
+
     await activeRecord.save();
 
     return res.json({ message: 'Logout successful', attendance: activeRecord });
@@ -100,6 +143,8 @@ const logout = async (req, res, next) => {
 
 const getAttendance = async (req, res, next) => {
   try {
+    await closeOldActiveLogins();
+
     const query = {
       ...buildDateFilter(req.query.date)
     };
@@ -144,10 +189,15 @@ const getAttendance = async (req, res, next) => {
 
 const getAttendanceByIntern = async (req, res, next) => {
   try {
+    const internId = req.params.internId.toUpperCase();
+
+    await closeOldActiveLogins(internId);
+
     const records = await Attendance.find({
-      internId: req.params.internId.toUpperCase(),
+      internId,
       ...buildDateFilter(req.query.date)
     }).sort({ createdAt: -1 });
+
     return res.json(records);
   } catch (error) {
     return next(error);
