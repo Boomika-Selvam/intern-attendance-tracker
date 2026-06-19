@@ -6,11 +6,12 @@ import { AttendanceComponent } from './features/attendance/attendance.component'
 import { AdminDashboardComponent } from './features/admin/admin-dashboard.component';
 import { GuestGuard } from './core/guards/guest.guard';
 import { RegisteredGuard } from './core/guards/registered.guard';
+import { QrGuard } from './core/guards/qr.guard';
 
 const routes: Routes = [
   { path: 'register', component: RegistrationComponent, canActivate: [GuestGuard] },
   { path: 'scan', component: ScannerComponent, canActivate: [RegisteredGuard] },
-  { path: 'attendance', component: AttendanceComponent, canActivate: [RegisteredGuard] },
+  { path: 'attendance', component: AttendanceComponent, canActivate: [RegisteredGuard, QrGuard] },
   { path: 'admin', component: AdminDashboardComponent },
   { path: '', redirectTo: 'scan', pathMatch: 'full' },
   { path: '**', redirectTo: 'scan' }
