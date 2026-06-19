@@ -35,10 +35,7 @@ export class AdminDashboardComponent implements OnInit {
     this.api.getAttendance(internSearch, value.date || '', true).subscribe((records) => {
       const activeInternIds = records.map((record) => record.internId);
 
-      this.api.getInterns(
-  internSearch,
-  value.date || ''
-).subscribe((interns) => {
+      this.api.getInterns(internSearch).subscribe((interns) => {
         this.interns = interns.filter((intern) => activeInternIds.includes(intern.internId));
       });
     });
