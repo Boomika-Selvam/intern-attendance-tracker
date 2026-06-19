@@ -25,26 +25,34 @@ const registerIntern = async (req, res, next) => {
 const getInterns = async (req, res, next) => {
   try {
     const search = String(req.query.search || '').trim();
-    const query = search
-      ? { $or: [{ internId: new RegExp(search, 'i') }, { name: new RegExp(search, 'i') }] }
-      : {};
+    const date = req.query.date;
+
+    const query = {};
+
+    if (search) {
+      query.$or = [
+        { internId: new RegExp(search, 'i') },
+        { name: new RegExp(search, 'i') }
+      ];
+    }
+
+    if (date) {
+      const start = new Date(date);
+      const end = new Date(date);
+
+      end.setDate(end.getDate() + 1);
+
+      query.createdAt = {
+        $gte: start,
+        $lt: end
+      };
+    }
+
     const interns = await Intern.find(query).sort({ createdAt: -1 });
+
     return res.json(interns);
   } catch (error) {
-    return next(error);
+    next(error);
   }
 };
-
-const getInternById = async (req, res, next) => {
-  try {
-    const intern = await Intern.findOne({ internId: req.params.internId });
-    if (!intern) {
-      return res.status(404).json({ message: 'Intern not found' });
-    }
-    return res.json(intern);
-  } catch (error) {
-    return next(error);
-  }
-};
-
 module.exports = { registerIntern, getInterns, getInternById };

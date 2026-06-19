@@ -13,10 +13,22 @@ export class ApiService {
     return this.http.post<{ message: string; intern: Intern }>(`${environment.apiUrl}/register`, formData);
   }
 
-  getInterns(search = ''): Observable<Intern[]> {
-    const params = search ? new HttpParams().set('search', search) : undefined;
-    return this.http.get<Intern[]>(`${environment.apiUrl}/interns`, { params });
+  getInterns(search = '', date = ''): Observable<Intern[]> {
+  let params = new HttpParams();
+
+  if (search) {
+    params = params.set('search', search);
   }
+
+  if (date) {
+    params = params.set('date', date);
+  }
+
+  return this.http.get<Intern[]>(
+    `${environment.apiUrl}/interns`,
+    { params }
+  );
+}
 
   getIntern(internId: string): Observable<Intern> {
     return this.http.get<Intern>(`${environment.apiUrl}/interns/${internId}`);
